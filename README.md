@@ -53,3 +53,9 @@ Core만 확인할 때는 `swift test --disable-sandbox`를 실행합니다. 전�
 - docs/: 기능 목록, 요청 템플릿, 수동 QA, 검증 결과
 
 작은 초기 앱이므로 SwiftUI Observation을 사용합니다. 파일 I/O는 MainActor에서 동기 실행하므로 대량 데이터나 동기화를 도입할 때는 비동기 저장소로 변경해야 합니다.
+
+## DF-001 일정 검색
+
+선택 날짜의 제목과 메모를 부분 검색합니다. 대소문자와 앞뒤 공백을 무시하며 검색어는 날짜 변경 시 유지됩니다. TASK는 docs/tasks/DF-001.md에 있습니다.
+
+제한된 로컬 컴파일러 플러그인 환경에서는 `DAYFLOW_SWIFT_DISABLE_SANDBOX=1 ./scripts/verify.sh`로 검증합니다. 이 옵션은 기본 CI에는 적용하지 않습니다.
