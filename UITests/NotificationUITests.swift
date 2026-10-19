@@ -38,7 +38,14 @@ final class NotificationUITests: XCTestCase {
             app.collectionViews.firstMatch.swipeUp()
         }
         XCTAssertTrue(toggle.exists)
-        if toggle.value as? String != "1" { toggle.tap() }
+        if toggle.value as? String != "1" {
+            capture("알림토글_조작전")
+            // SwiftUI Form은 행 전체를 Switch로 노출하므로 오른쪽 실제 스위치를 누릅니다.
+            toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.92, dy: 0.5)).tap()
+            capture("알림토글_조작후")
+        }
+        let enabled = expectation(for: NSPredicate(format: "value == %@", "1"), evaluatedWith: toggle)
+        wait(for: [enabled], timeout: 5)
         XCTAssertEqual(toggle.value as? String, "1")
     }
     private func save() {
