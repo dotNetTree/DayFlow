@@ -71,3 +71,9 @@ UI 테스트는 --demo로 앱을 실행해 실제 화면을 조작합니다. 추
 이 TASK는 main 기준의 기본 화면 자동화를 제공합니다. 검색과 알림 PR은 이 기반이 반영된 뒤 해당 기능 시나리오를 추가해 검증해야 합니다. UI 테스트는 시각적 디자인 검토와 실제 기기의 알림 수신 확인을 대신하지 않습니다.
 
 참고: [Apple XCUIAutomation](https://developer.apple.com/documentation/XCUIAutomation), [테스트 결과 번들](https://help.apple.com/xcode/mac/current/en.lproj/devc38fc7392.html)
+
+## DF-001 일정 검색
+
+선택 날짜의 제목과 메모를 부분 검색합니다. 대소문자와 앞뒤 공백을 무시하며 검색어는 날짜 변경 시 유지됩니다. TASK는 docs/tasks/DF-001.md에 있습니다.
+
+제한된 로컬 컴파일러 플러그인 환경에서는 `DAYFLOW_SWIFT_DISABLE_SANDBOX=1 ./scripts/verify.sh`로 검증합니다. 이 옵션은 기본 CI에는 적용하지 않습니다.

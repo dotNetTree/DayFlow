@@ -3,10 +3,11 @@ import SwiftUI
 struct ScheduleListView: View {
     @State private var store = ScheduleStore()
     @State private var selectedDay = Date()
+    @State private var query = ""
     @State private var editing: Schedule?
     @State private var pendingDelete: Schedule?
     private var visible: [Schedule] {
-        store.schedules.filter { $0.overlaps(day: selectedDay) }.sorted { $0.start < $1.start }
+        ScheduleSearch.filter(store.schedules, day: selectedDay, query: query)
     }
     var body: some View {
         NavigationStack {
@@ -14,7 +15,13 @@ struct ScheduleListView: View {
                 DatePicker("날짜", selection: $selectedDay, displayedComponents: .date)
                     .datePickerStyle(.graphical)
                 Section("일정 \(visible.count)개") {
-                    if visible.isEmpty { ContentUnavailableView("등록된 일정이 없어요", systemImage: "calendar", description: Text("오른쪽 위 + 버튼으로 일정을 추가하세요.")) }
+                    if visible.isEmpty {
+                        if query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            ContentUnavailableView("등록된 일정이 없어요", systemImage: "calendar", description: Text("오른쪽 위 + 버튼으로 일정을 추가하세요."))
+                        } else {
+                            ContentUnavailableView("검색 결과가 없어요", systemImage: "magnifyingglass", description: Text("검색어나 날짜를 바꿔보세요."))
+                        }
+                    }
                     ForEach(visible) { item in
                         HStack {
                             Button {
@@ -39,6 +46,7 @@ struct ScheduleListView: View {
             }
             .accessibilityIdentifier("schedule.list")
             .navigationTitle("DayFlow")
+            .searchable(text: $query, prompt: "제목 또는 메모 검색")
             .toolbar { Button("일정 추가", systemImage: "plus") {
                 let start = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: selectedDay) ?? selectedDay
                 editing = Schedule(title: "", start: start, end: start.addingTimeInterval(3600))

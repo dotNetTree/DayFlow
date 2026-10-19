@@ -38,3 +38,9 @@ DF-005의 기본 화면 자동화는 완료했습니다. DF-001 검색과 DF-002
 - [PNG 스크린샷 ZIP](https://github.com/dotNetTree/DayFlow/actions/runs/39219192919/artifacts/12170864161): ui-screenshots, 228,601 bytes.
 - [Xcode 결과 번들](https://github.com/dotNetTree/DayFlow/actions/runs/39219192919/artifacts/12171362016): ui-test-results, 721,932 bytes.
 - 보관 기간: 7일. 이 링크가 최초 누락된 실행 #18의 업로드 안내를 대체합니다.
+
+## DF-001: DF-005 병합 후 충돌 해결
+
+main의 UI 테스트 타깃, 접근성 식별자, CI와 스크린샷 업로드 설정을 유지하면서 DF-001 검색 소스를 Xcode 빌드에 추가했습니다. TASK별 검색 QA 문서와 DF-005 검증 이력을 함께 보존합니다.
+
+재검증 결과: Core 테스트 9개(검색 5개 + 기존 4개) 통과, iOS Simulator generic 앱 빌드 성공, UI 테스트 타깃 build-for-testing 성공. 로컬 명령은 DAYFLOW_SWIFT_DISABLE_SANDBOX=1 ./scripts/verify.sh와 동일 옵션의 xcodebuild build-for-testing입니다. 로컬 시뮬레이터 실행은 미검증이며 CI에서 기존 UI 회귀 테스트를 재실행합니다. 이 변경은 기존 PR #2의 충돌 해결이며 검색 화면 QA를 자동 완료 처리하지 않습니다.
