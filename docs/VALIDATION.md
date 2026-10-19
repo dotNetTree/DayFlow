@@ -30,3 +30,11 @@
 ## 남은 범위
 
 DF-005의 기본 화면 자동화는 완료했습니다. DF-001 검색과 DF-002 알림은 각 PR에 이 기반을 적용하고 해당 기능 시나리오를 추가해야 합니다. 이번 결과로 두 기능의 화면 QA까지 완료 처리하지 않습니다. 시각적 배치, 큰 글자, VoiceOver와 실제 기기 알림 도착은 별도 검증 대상입니다.
+
+## 스크린샷 업로드 재검증
+
+[후속 실행](https://github.com/dotNetTree/DayFlow/actions/runs/39219192919)에서 Core·UI 테스트와 PNG 추출·업로드 단계가 모두 성공했습니다. Artifacts API로 실제 파일의 존재, 0보다 큰 크기와 미만료 상태를 확인했습니다.
+
+- [PNG 스크린샷 ZIP](https://github.com/dotNetTree/DayFlow/actions/runs/39219192919/artifacts/12170864161): ui-screenshots, 228,601 bytes.
+- [Xcode 결과 번들](https://github.com/dotNetTree/DayFlow/actions/runs/39219192919/artifacts/12171362016): ui-test-results, 721,932 bytes.
+- 보관 기간: 7일. 이 링크가 최초 누락된 실행 #18의 업로드 안내를 대체합니다.
