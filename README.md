@@ -64,7 +64,7 @@ Core만 확인할 때는 `swift test --disable-sandbox`를 실행합니다. 전�
 ./scripts/ui-test.sh  # 실제 시뮬레이터에서 XCUITest
 ```
 
-UI 테스트는 --demo로 앱을 실행해 실제 화면을 조작합니다. 추가·수정·완료·삭제, 빈 제목/공백 입력 차단과 취소, 데모 재실행 초기화를 확인합니다. 각 테스트에서 스크린샷을 첨부하며 CI는 xcresult 결과 번들을 7일간 보관합니다. Actions 실행의 ui-test-results 아티팩트를 다운로드해 Xcode에서 열 수 있습니다.
+UI 테스트는 --demo로 앱을 실행해 실제 화면을 조작합니다. 추가·수정·완료·삭제, 빈 제목/공백 입력 차단과 취소, 데모 재실행 초기화를 확인합니다. 각 테스트에서 스크린샷을 첨부하며 CI는 xcresult 결과 번들을 7일간 보관합니다. Actions 실행의 ui-test-results 아티팩트는 Xcode에서 열 수 있고, ui-screenshots 아티팩트는 PNG 이미지 ZIP으로 내려받아 볼 수 있습니다. 업로드할 파일이 없으면 CI를 실패 처리합니다.
 
 선택한 Xcode의 SDK와 호환되는 사용 가능한 iPhone 시뮬레이터를 자동 선택합니다. CI는 macOS 15 / Xcode 16.4를 지정해 실행 환경을 고정합니다. UI 실행용 앱과 테스트 러너는 인증서 없이 ad-hoc 서명합니다. 필요하면 `DAYFLOW_SIMULATOR_ID=<UDID>`를 지정하세요. 컴파일러 플러그인의 로컬 sandbox 오류가 있는 경우 `DAYFLOW_SWIFT_DISABLE_SANDBOX=1`을 명령 앞에 붙일 수 있습니다. 시뮬레이터 서비스 자체가 동작하지 않으면 CI에서 실행해야 합니다.
 

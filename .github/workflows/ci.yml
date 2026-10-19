@@ -14,11 +14,24 @@ jobs:
         run: ./scripts/verify.sh
       - name: Run UI regression tests
         run: ./scripts/ui-test.sh
-      - name: Upload UI test results and screenshots
+      - name: Export UI screenshots as PNG
+        if: always()
+        run: ./scripts/export-ui-screenshots.sh
+      - name: Upload UI test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ui-test-results
           path: .build/UIResults-*.xcresult
-          if-no-files-found: warn
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
+      - name: Upload PNG screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-screenshots
+          path: .build/ui-attachments/**/*.png
+          if-no-files-found: error
+          include-hidden-files: true
           retention-days: 7
