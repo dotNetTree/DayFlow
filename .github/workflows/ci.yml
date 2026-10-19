@@ -2,10 +2,36 @@ name: Validate
 on: [push, pull_request, workflow_dispatch]
 jobs:
   verify:
-    runs-on: macos-latest
+    runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - name: Show selected Xcode
         run: xcodebuild -version
       - name: Test and build
         run: ./scripts/verify.sh
+      - name: Run UI regression tests
+        run: ./scripts/ui-test.sh
+      - name: Export UI screenshots as PNG
+        if: always()
+        run: ./scripts/export-ui-screenshots.sh
+      - name: Upload UI test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-test-results
+          path: .build/UIResults-*.xcresult
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
+      - name: Upload PNG screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-screenshots
+          path: .build/ui-attachments/**/*.png
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
