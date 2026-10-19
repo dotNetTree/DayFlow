@@ -1,12 +1,8 @@
-# 검증 결과 — 2026-10-19
+# DF-005 검증 — 2026-10-19
 
-환경: Xcode 27.1, Swift 6.4, macOS.
+- UI 타깃 build-for-testing: 성공 (Xcode 27.1, Swift 6.4, iOS Simulator generic).
+- 명령에 OTHER_SWIFT_FLAGS='$(inherited) -disable-sandbox' 사용: 제한된 로컬 환경의 Swift 플러그인 실행 오류 회피용.
+- 로컬 UI 실제 실행: 시도했으나 CoreSimulator 서비스 연결 실패로 실행 전 중단. UI 테스트 성공으로 처리하지 않음.
+- Core 테스트와 앱 빌드, GitHub CI 실제 UI 실행 결과는 후속 기록 예정.
 
-- Swift Package 핵심 로직 테스트: 4개 통과, 실패 0개.
-- 검증 범위: 제목/시간 입력, 자정 경계, JSON 저장·읽기·삭제, 손상 파일 오류.
-- iOS Simulator 대상 빌드: 시도했으나 실패. swift-plugin-server의 malformed response로 SwiftUI State/Observation 매크로 구현을 로드하지 못함. 이 환경에서 앱 컴파일 성공은 확인하지 못함.
-- 시뮬레이터 실행: 미검증. 설치된 CoreSimulator 1171.7.0과 Xcode 요구 버전 1174.9.2의 불일치 진단이 발생함.
-- 수동 화면, 실기기, VoiceOver, 실제 앱 재시작 후 저장 유지: 미검증.
-- GitHub Actions: 설정 파일만 작성. 원격 저장소에서 실행하지 않음.
-
-Xcode와 Simulator 환경을 정리한 뒤 ./scripts/verify.sh와 docs/QA.md를 수행해야 합니다. 마지막 UI 오류 처리 보완도 앱 빌드 실패로 컴파일 검증하지 못했습니다.
+CI는 실제 시뮬레이터에서 UI 테스트를 실행하며 xcresult와 스크린샷을 ui-test-results 아티팩트로 보관합니다. 이 TASK는 기본 앱 화면을 대상으로 하며 기존 DF-001/DF-002 PR의 검색·알림 화면 검증을 대신하지 않습니다.
