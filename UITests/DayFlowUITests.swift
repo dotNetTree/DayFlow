@@ -72,7 +72,8 @@ final class DayFlowUITests: XCTestCase {
         XCTAssertEqual(complete.value as? String, "pending")
         edited.swipeLeft()
         app.buttons["schedule.delete.\(id)"].tap()
-        let confirmation = app.buttons["schedule.delete.confirm"]
+        // SwiftUI 확인창은 같은 식별자의 부모/자식 버튼을 함께 노출할 수 있습니다.
+        let confirmation = app.sheets.buttons.matching(identifier: "schedule.delete.confirm").firstMatch
         XCTAssertTrue(confirmation.waitForExistence(timeout: 5))
         confirmation.tap()
         XCTAssertTrue(edited.waitForNonExistence(timeout: 5))
