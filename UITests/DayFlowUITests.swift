@@ -4,7 +4,7 @@ import XCTest
 final class DayFlowUITests: XCTestCase {
     private var app: XCUIApplication!
 
-    override func setUpWithError() throws {
+    private func launchApp() {
         continueAfterFailure = false
         app = XCUIApplication()
         app.launchArguments = ["--demo", "-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
@@ -12,7 +12,7 @@ final class DayFlowUITests: XCTestCase {
         XCTAssertTrue(app.buttons["schedule.add"].waitForExistence(timeout: 10))
     }
 
-    override func tearDownWithError() throws {
+    private func captureAndTerminate() {
         let screenshot = XCTAttachment(screenshot: app.screenshot())
         screenshot.name = name
         screenshot.lifetime = .keepAlways
@@ -48,6 +48,8 @@ final class DayFlowUITests: XCTestCase {
     }
 
     func testCreateEditCompleteAndDeleteSchedule() {
+        launchApp()
+        defer { captureAndTerminate() }
         app.buttons["schedule.add"].tap()
         enterTitle("UI 자동화 일정")
         save()
@@ -80,6 +82,8 @@ final class DayFlowUITests: XCTestCase {
     }
 
     func testInvalidTitleCannotSaveAndCancelDoesNotCreateSchedule() {
+        launchApp()
+        defer { captureAndTerminate() }
         app.buttons["schedule.add"].tap()
         XCTAssertTrue(app.textFields["editor.title"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["editor.save"].isEnabled)
@@ -91,6 +95,8 @@ final class DayFlowUITests: XCTestCase {
     }
 
     func testDemoRelaunchResetsCreatedSchedule() {
+        launchApp()
+        defer { captureAndTerminate() }
         app.buttons["schedule.add"].tap()
         enterTitle("재실행 초기화 확인")
         save()
