@@ -103,8 +103,8 @@ final class NotificationUITests: XCTestCase {
         XCTAssertTrue(retry.exists)
         retry.tap()
         XCTAssertTrue(message.waitForExistence(timeout: 5))
-        XCTAssertTrue(sample.exists)
         capture("예약실패_저장유지_재시도")
+        // 상태 안내가 일정을 화면 밖으로 밀 수 있으므로 스크롤 후 재편집으로 저장을 검증합니다.
         openSample()
         XCTAssertEqual(toggle.value as? String, "1")
     }
