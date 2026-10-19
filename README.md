@@ -84,3 +84,9 @@ DAYFLOW_SWIFT_DISABLE_SANDBOX=1 ./scripts/verify.sh
 ```
 
 Core의 ScheduleStore는 Observation을 사용하며 저장과 알림 조정을 테스트할 수 있도록 저장소와 알림 클라이언트를 주입받습니다. UserNotifications 어댑터는 App/에 있습니다.
+
+## 검증 후 PR 작성 규칙
+
+AI 작업은 실제 테스트와 iOS 빌드가 통과하면 커밋·push와 PR 작성까지 진행합니다. 같은 작업의 PR이 있으면 갱신합니다. 화면/실기기 QA가 남아 있으면 초안 PR로 작성하며, 자동 검증 실패 시 먼저 수정하거나 차단 사유를 보고합니다. PR은 `.github/pull_request_template.md`에 따라 실제 검증 결과와 미검증 항목을 구분합니다. 병합과 배포는 별도 지시가 필요합니다.
+
+이 규칙은 AI가 프로젝트에서 작업할 때 적용됩니다. GitHub Actions가 스스로 기능을 개발하거나 PR을 생성하는 설정은 아닙니다.
