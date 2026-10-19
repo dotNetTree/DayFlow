@@ -1,0 +1,11 @@
+name: Validate
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  verify:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show selected Xcode
+        run: xcodebuild -version
+      - name: Test and build
+        run: ./scripts/verify.sh

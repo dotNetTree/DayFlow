@@ -1,0 +1,21 @@
+// !$*UTF8*$!
+{archiveVersion = 1; classes = {}; objectVersion = 56; objects = {000000000000000000000064 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/DayFlowApp.swift"; sourceTree = "<group>"; };
+0000000000000000000000C8 = {isa = PBXBuildFile; fileRef = 000000000000000000000064; };
+000000000000000000000065 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/ScheduleListView.swift"; sourceTree = "<group>"; };
+0000000000000000000000C9 = {isa = PBXBuildFile; fileRef = 000000000000000000000065; };
+000000000000000000000066 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Core/Schedule.swift"; sourceTree = "<group>"; };
+0000000000000000000000CA = {isa = PBXBuildFile; fileRef = 000000000000000000000066; };
+000000000000000000000001 = { isa = PBXProject; buildConfigurationList = 00000000000000000000000B; compatibilityVersion = "Xcode 14.0"; developmentRegion = ko; knownRegions = (ko,en,Base); mainGroup = 000000000000000000000002; productRefGroup = 000000000000000000000003; projectDirPath = ""; targets = (000000000000000000000006); };
+000000000000000000000002 = { isa = PBXGroup; children = (000000000000000000000064,000000000000000000000065,000000000000000000000066,000000000000000000000003); sourceTree = "<group>"; };
+000000000000000000000003 = { isa = PBXGroup; children = (000000000000000000000007); name = Products; sourceTree = "<group>"; };
+000000000000000000000007 = { isa = PBXFileReference; explicitFileType = wrapper.application; path = DayFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
+000000000000000000000006 = { isa = PBXNativeTarget; buildConfigurationList = 00000000000000000000000C; buildPhases = (000000000000000000000008,000000000000000000000009,00000000000000000000000A); buildRules = (); dependencies = (); name = DayFlow; productName = DayFlow; productReference = 000000000000000000000007; productType = "com.apple.product-type.application"; };
+000000000000000000000008 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (0000000000000000000000C8,0000000000000000000000C9,0000000000000000000000CA); runOnlyForDeploymentPostprocessing = 0; };
+000000000000000000000009 = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+00000000000000000000000A = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+00000000000000000000000B = { isa = XCConfigurationList; buildConfigurations = (00000000000000000000000D,00000000000000000000000E); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+00000000000000000000000C = { isa = XCConfigurationList; buildConfigurations = (00000000000000000000000F,000000000000000000000010); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+00000000000000000000000D = { isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; SWIFT_OPTIMIZATION_LEVEL = "-Onone";}; name = Debug; };
+00000000000000000000000E = { isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; SWIFT_OPTIMIZATION_LEVEL = "-O";}; name = Release; };
+00000000000000000000000F = { isa = XCBuildConfiguration; buildSettings = {PRODUCT_BUNDLE_IDENTIFIER = com.example.DayFlow; PRODUCT_NAME = "$(TARGET_NAME)"; SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SWIFT_VERSION = 6.0; TARGETED_DEVICE_FAMILY = "1,2"; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; CODE_SIGN_STYLE = Automatic;}; name = Debug; };
+000000000000000000000010 = { isa = XCBuildConfiguration; buildSettings = {PRODUCT_BUNDLE_IDENTIFIER = com.example.DayFlow; PRODUCT_NAME = "$(TARGET_NAME)"; SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SWIFT_VERSION = 6.0; TARGETED_DEVICE_FAMILY = "1,2"; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; CODE_SIGN_STYLE = Automatic;}; name = Release; };}; rootObject = 000000000000000000000001;}
