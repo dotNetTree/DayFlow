@@ -25,7 +25,8 @@ extension ScheduleStore {
         } else { client = .live() }
         return ScheduleStore(
             repository: ScheduleRepository(url: URL.applicationSupportDirectory.appending(path: "DayFlow/schedules.json")),
-            notificationClient: client, demo: demo, errorDemo: errorDemo
+            notificationClient: client, demo: demo, errorDemo: errorDemo,
+            demoStart: demo && arguments.contains("--notification-qa") ? Date().addingTimeInterval(3600) : nil
         )
     }
 }

@@ -108,3 +108,9 @@ DAYFLOW_SWIFT_DISABLE_SANDBOX=1 ./scripts/verify.sh
 
 Core의 ScheduleStore는 Observation을 사용하며 저장과 알림 조정을 테스트할 수 있도록 저장소와 알림 클라이언트를 주입받습니다. UserNotifications 어댑터는 App/에 있습니다.
 
+
+### DF-002 알림 화면 QA 실행
+
+`--demo --notification-qa`는 한 시간 뒤의 예시 일정을 메모리에 만들고 해당 날짜를 선택합니다. 자정을 넘겨도 예시를 찾을 수 있도록 테스트 시각을 맞춥니다. 실제 알림은 예약하지 않습니다. `--notification-denied` 또는 `--notification-failure`를 추가해 안내와 오류 흐름을 검증합니다.
+
+알림 UI 테스트는 권한 상태를 주입해 화면 동작을 확인합니다. 시스템 권한 팝업·설정 앱 복귀·실제 iPhone 알림 수신을 대신하지 않습니다.

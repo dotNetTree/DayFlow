@@ -16,13 +16,13 @@ public final class ScheduleStore {
     private var loadFailed = false
     private var syncRevision = 0
 
-    public init(repository: ScheduleRepository, notificationClient: ScheduleNotificationClient, demo: Bool = false, errorDemo: Bool = false) {
+    public init(repository: ScheduleRepository, notificationClient: ScheduleNotificationClient, demo: Bool = false, errorDemo: Bool = false, demoStart: Date? = nil) {
         self.repository = repository
         self.coordinator = ScheduleNotificationCoordinator(client: notificationClient)
         self.demo = demo
         self.errorDemo = errorDemo
         if demo {
-            let now = Date()
+            let now = demoStart ?? Date()
             schedules = [Schedule(title: "오늘의 계획 세우기", note: "가장 중요한 일 세 가지", start: now, end: now.addingTimeInterval(1800))]
         } else {
             do { schedules = try repository.load() }

@@ -3,7 +3,7 @@ import SwiftUI
 struct ScheduleListView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var store = ScheduleStore.makeAppStore()
-    @State private var selectedDay = Date()
+    @State private var selectedDay = ProcessInfo.processInfo.arguments.contains("--demo") && ProcessInfo.processInfo.arguments.contains("--notification-qa") ? Date().addingTimeInterval(3600) : Date()
     @State private var query = ""
     @State private var editing: Schedule?
     @State private var pendingDelete: Schedule?
@@ -17,9 +17,9 @@ struct ScheduleListView: View {
                     .datePickerStyle(.graphical)
                 if let message = store.notificationMessage {
                     Section("알림 상태") {
-                        Text(message)
+                        Text(message).accessibilityIdentifier("notification.message")
                         Button("알림 다시 동기화") { store.syncNotifications() }
-                            .disabled(store.isSyncingNotifications)
+                            .disabled(store.isSyncingNotifications).accessibilityIdentifier("notification.retry")
                     }
                 }
                 Section("일정 \(visible.count)개") {
@@ -105,19 +105,20 @@ struct ScheduleEditor: View {
                 TextField("메모", text: $item.note, axis: .vertical).accessibilityIdentifier("editor.note")
                 Section("알림") {
                     Toggle("시작 시간에 알림", isOn: $item.isNotificationEnabled)
+                        .accessibilityIdentifier("notification.toggle")
                         .disabled(store.isRequestingPermission)
                         .onChange(of: item.isNotificationEnabled) { _, enabled in
                             if enabled { Task { await store.requestNotificationPermission() } }
                         }
                     if store.isRequestingPermission { ProgressView("알림 권한 확인 중") }
                     if item.isNotificationEnabled {
-                        Text(permissionDescription).font(.caption)
+                        Text(permissionDescription).font(.caption).accessibilityIdentifier("notification.permission")
                         if store.authorization == .denied {
                             Button("설정에서 알림 허용") {
                                 if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
-                            }
+                            }.accessibilityIdentifier("notification.settings")
                         }
-                        if item.start <= Date() { Text("과거 일정은 저장할 수 있지만 알림은 예약하지 않아요.").font(.caption) }
+                        if item.start <= Date() { Text("과거 일정은 저장할 수 있지만 알림은 예약하지 않아요.").font(.caption).accessibilityIdentifier("notification.past") }
                         if let message = store.notificationMessage { Text(message).font(.caption) }
                     }
                 }

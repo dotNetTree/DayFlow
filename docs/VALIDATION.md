@@ -50,3 +50,12 @@ main의 UI 테스트 타깃, 접근성 식별자, CI와 스크린샷 업로드 �
 최신 main의 검색 로직과 UI 접근성 식별자·UI 테스트 타깃·CI·스크린샷 업로드 설정을 유지하면서 알림 화면과 Core Store를 통합했습니다. Xcode 검색 파일과 알림 파일의 참조 ID 충돌도 별도로 정리했습니다.
 
 재검증 결과: Core 테스트 22개(알림 8개, Store 5개, 검색 5개, 기존 모델·저장 4개) 통과. iOS Simulator generic 앱 빌드와 UI 테스트 타깃 build-for-testing 성공. 제한된 로컬 환경에서 DAYFLOW_SWIFT_DISABLE_SANDBOX=1 ./scripts/verify.sh와 동일 옵션의 xcodebuild build-for-testing을 사용했습니다. 실제 UI 회귀 테스트는 CI에서 재실행하며 알림 전용 화면 QA와 실제 기기 수신은 이번 충돌 해결로 완료 처리하지 않습니다.
+
+## DF-002 화면 QA 확장 — 2026-10-19
+
+- 추가 코드: NotificationUITests 4개, 주요 단계 스크린샷, 테스트 전용 미래 데모 일정.
+- 로컬 검증: Core 테스트 22개 통과, 앱 빌드 및 알림 UI 테스트를 포함한 build-for-testing 성공.
+- 실제 시뮬레이터 실행: CI에서 후속 확인 예정. 컴파일 성공을 UI 실행 성공으로 처리하지 않음.
+- 실기기 조회: devicectl이 CoreDeviceService 초기화 대기 중 시간 초과.
+- 사용자 확인: 현재 실기기를 사용할 수 없음. 따라서 실제 권한 팝업, 설정 앱 복귀, 전면·백그라운드 수신과 실기기 예약 정리는 **미검증**.
+- 전체 DF-002 상태는 QA 대기 유지. 새 PR 생성 및 기존 초안의 일반 PR 전환은 하지 않음.
