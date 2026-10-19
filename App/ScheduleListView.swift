@@ -1,8 +1,9 @@
 import SwiftUI
 
 struct ScheduleListView: View {
-    @State private var store = ScheduleStore()
-    @State private var selectedDay = Date()
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var store = ScheduleStore.makeAppStore()
+    @State private var selectedDay = ProcessInfo.processInfo.arguments.contains("--demo") && ProcessInfo.processInfo.arguments.contains("--notification-qa") ? Date().addingTimeInterval(3600) : Date()
     @State private var query = ""
     @State private var editing: Schedule?
     @State private var pendingDelete: Schedule?
@@ -14,6 +15,13 @@ struct ScheduleListView: View {
             List {
                 DatePicker("날짜", selection: $selectedDay, displayedComponents: .date)
                     .datePickerStyle(.graphical)
+                if let message = store.notificationMessage {
+                    Section("알림 상태") {
+                        Text(message).accessibilityIdentifier("notification.message")
+                        Button("알림 다시 동기화") { store.syncNotifications() }
+                            .disabled(store.isSyncingNotifications).accessibilityIdentifier("notification.retry")
+                    }
+                }
                 Section("일정 \(visible.count)개") {
                     if visible.isEmpty {
                         if query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -51,7 +59,9 @@ struct ScheduleListView: View {
                 let start = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: selectedDay) ?? selectedDay
                 editing = Schedule(title: "", start: start, end: start.addingTimeInterval(3600))
             }.accessibilityIdentifier("schedule.add") }
-            .sheet(item: $editing) { item in ScheduleEditor(item: item) { item in
+            .task { store.syncNotifications() }
+            .onChange(of: scenePhase) { _, phase in if phase == .active { store.syncNotifications() } }
+            .sheet(item: $editing) { item in ScheduleEditor(store: store, item: item) { item in
                 if store.upsert(item) { return nil }
                 let message = store.error ?? "저장하지 못했습니다."
                 store.error = nil
@@ -69,10 +79,23 @@ struct ScheduleListView: View {
 }
 
 struct ScheduleEditor: View {
+    @Bindable var store: ScheduleStore
+    @Environment(\.openURL) private var openURL
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.dismiss) private var dismiss
     @State var item: Schedule
     @State private var saveError: String?
     var onSave: (Schedule) -> String?
+    private var permissionDescription: String {
+        switch store.authorization {
+        case .notDetermined: "알림 토글을 켜면 권한을 요청합니다."
+        case .authorized: "저장하면 시작 시간에 알림을 예약합니다."
+        case .denied: "알림 권한이 꺼져 있어요. 일정은 저장할 수 있어요."
+        case .provisional: "조용한 알림이 허용되어 있어요. 배너는 기기 설정에 따라 표시됩니다."
+        case .ephemeral: "임시 알림 권한이 허용되어 있어요."
+        case .unknown: "알림 권한 상태를 확인할 수 없어요."
+        }
+    }
     var body: some View {
         NavigationStack {
             Form {
@@ -80,13 +103,32 @@ struct ScheduleEditor: View {
                 DatePicker("시작", selection: $item.start)
                 DatePicker("종료", selection: $item.end)
                 TextField("메모", text: $item.note, axis: .vertical).accessibilityIdentifier("editor.note")
+                Section("알림") {
+                    Toggle("시작 시간에 알림", isOn: $item.isNotificationEnabled)
+                        .accessibilityIdentifier("notification.toggle")
+                        .disabled(store.isRequestingPermission)
+                        .onChange(of: item.isNotificationEnabled) { _, enabled in
+                            if enabled { Task { await store.requestNotificationPermission() } }
+                        }
+                    if store.isRequestingPermission { ProgressView("알림 권한 확인 중") }
+                    if item.isNotificationEnabled {
+                        Text(permissionDescription).font(.caption).accessibilityIdentifier("notification.permission")
+                        if store.authorization == .denied {
+                            Button("설정에서 알림 허용") {
+                                if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
+                            }.accessibilityIdentifier("notification.settings")
+                        }
+                        if item.start <= Date() { Text("과거 일정은 저장할 수 있지만 알림은 예약하지 않아요.").font(.caption).accessibilityIdentifier("notification.past") }
+                        if let message = store.notificationMessage { Text(message).font(.caption) }
+                    }
+                }
                 if let message = item.validationMessage { Text(message).foregroundStyle(.red) }
                 if let saveError { Text(saveError).foregroundStyle(.red) }
             }
             .navigationTitle("일정 편집")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("취소") { dismiss() }.accessibilityIdentifier("editor.cancel") }
-                ToolbarItem(placement: .confirmationAction) { Button("저장") { saveError = onSave(item); if saveError == nil { dismiss() } }.disabled(item.validationMessage != nil).accessibilityIdentifier("editor.save") }
+                ToolbarItem(placement: .confirmationAction) { Button("저장") { saveError = onSave(item); if saveError == nil { dismiss() } }.disabled(item.validationMessage != nil || store.isRequestingPermission).accessibilityIdentifier("editor.save") }
             }
         }
     }
