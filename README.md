@@ -57,3 +57,26 @@ Core만 확인할 때는 `swift test --disable-sandbox`를 실행합니다. 전�
 ## TASK별 PR 규칙
 
 TASK마다 독립 브랜치와 PR을 작성합니다. 실제 테스트·빌드 통과 후 PR 작성까지 진행하며, 화면·실기기 QA가 남으면 초안으로 유지합니다. 여러 TASK의 동시 개발도 PR은 분리합니다. 병합과 배포는 별도 지시가 필요합니다.
+
+## UI 반복 테스트 우선 개발
+
+다음 진행 순서는 DF-005 → DF-001 검색 UI 검증 → DF-002 알림 UI 검증 → DF-004 → DF-003입니다. TASK 번호는 유지합니다. 기능 개발 전에 화면 시나리오와 기대 결과를 정의하고, 구현 후 UI 회귀 테스트를 통과시킵니다.
+
+```sh
+./scripts/verify.sh   # Core 테스트와 앱 빌드
+./scripts/ui-test.sh  # 실제 시뮬레이터에서 XCUITest
+```
+
+UI 테스트는 --demo로 앱을 실행해 실제 화면을 조작합니다. 추가·수정·완료·삭제, 빈 제목/공백 입력 차단과 취소, 데모 재실행 초기화를 확인합니다. 각 테스트에서 스크린샷을 첨부하며 CI는 xcresult 결과 번들을 7일간 보관합니다. Actions 실행의 ui-test-results 아티팩트는 Xcode에서 열 수 있고, ui-screenshots 아티팩트는 PNG 이미지 ZIP으로 내려받아 볼 수 있습니다. 업로드할 파일이 없으면 CI를 실패 처리합니다.
+
+선택한 Xcode의 SDK와 호환되는 사용 가능한 iPhone 시뮬레이터를 자동 선택합니다. CI는 macOS 15 / Xcode 16.4를 지정해 실행 환경을 고정합니다. UI 실행용 앱과 테스트 러너는 인증서 없이 ad-hoc 서명합니다. 필요하면 `DAYFLOW_SIMULATOR_ID=<UDID>`를 지정하세요. 컴파일러 플러그인의 로컬 sandbox 오류가 있는 경우 `DAYFLOW_SWIFT_DISABLE_SANDBOX=1`을 명령 앞에 붙일 수 있습니다. 시뮬레이터 서비스 자체가 동작하지 않으면 CI에서 실행해야 합니다.
+
+이 TASK는 main 기준의 기본 화면 자동화를 제공합니다. 검색과 알림 PR은 이 기반이 반영된 뒤 해당 기능 시나리오를 추가해 검증해야 합니다. UI 테스트는 시각적 디자인 검토와 실제 기기의 알림 수신 확인을 대신하지 않습니다.
+
+참고: [Apple XCUIAutomation](https://developer.apple.com/documentation/XCUIAutomation), [테스트 결과 번들](https://help.apple.com/xcode/mac/current/en.lproj/devc38fc7392.html)
+
+## DF-001 일정 검색
+
+선택 날짜의 제목과 메모를 부분 검색합니다. 대소문자와 앞뒤 공백을 무시하며 검색어는 날짜 변경 시 유지됩니다. TASK는 docs/tasks/DF-001.md에 있습니다.
+
+제한된 로컬 컴파일러 플러그인 환경에서는 `DAYFLOW_SWIFT_DISABLE_SANDBOX=1 ./scripts/verify.sh`로 검증합니다. 이 옵션은 기본 CI에는 적용하지 않습니다.
