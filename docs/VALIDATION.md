@@ -1,12 +1,13 @@
-# 검증 결과 — 2026-10-19
+# DF-002 독립 검증 — 2026-10-19
 
-환경: Xcode 27.1, Swift 6.4, macOS.
+기본 브랜치 main에서 DF-002 변경만 적용한 프로젝트를 별도로 검증했습니다.
 
-- Swift Package 핵심 로직 테스트: 4개 통과, 실패 0개.
-- 검증 범위: 제목/시간 입력, 자정 경계, JSON 저장·읽기·삭제, 손상 파일 오류.
-- iOS Simulator 대상 빌드: 시도했으나 실패. swift-plugin-server의 malformed response로 SwiftUI State/Observation 매크로 구현을 로드하지 못함. 이 환경에서 앱 컴파일 성공은 확인하지 못함.
-- 시뮬레이터 실행: 미검증. 설치된 CoreSimulator 1171.7.0과 Xcode 요구 버전 1174.9.2의 불일치 진단이 발생함.
-- 수동 화면, 실기기, VoiceOver, 실제 앱 재시작 후 저장 유지: 미검증.
-- GitHub Actions: 설정 파일만 작성. 원격 저장소에서 실행하지 않음.
-
-Xcode와 Simulator 환경을 정리한 뒤 ./scripts/verify.sh와 docs/QA.md를 수행해야 합니다. 마지막 UI 오류 처리 보완도 앱 빌드 실패로 컴파일 검증하지 못했습니다.
+- 환경: Xcode 27.1, Swift 6.4.
+- 명령: `DAYFLOW_SWIFT_DISABLE_SANDBOX=1 ./scripts/verify.sh`
+- 테스트: 17개 통과, 실패 0개 (알림 8개 + Store 통합 5개 + 기존 모델·저장 4개).
+- iOS Simulator generic Debug 빌드: 성공.
+- 제한된 로컬 환경의 Swift 플러그인 실행을 위한 선택 옵션을 사용했습니다. 기본 CI에는 이 옵션을 적용하지 않습니다.
+- 실제 화면 실행: 미검증. CoreSimulator 서비스 연결 실패.
+- 실제 기기 알림 수신: 미검증.
+- TASK 상태는 구현 완료 / QA 대기입니다. QA 항목은 docs/tasks/DF-002.md와 docs/QA.md를 참조하세요.
+- 공통 검증 스크립트의 Bash 빈 배열 오류 수정도 포함합니다.

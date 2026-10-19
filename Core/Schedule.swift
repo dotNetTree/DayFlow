@@ -7,10 +7,25 @@ public struct Schedule: Identifiable, Codable, Equatable, Sendable {
     public var start: Date
     public var end: Date
     public var isCompleted: Bool
+    public var isNotificationEnabled: Bool
 
-    public init(id: UUID = UUID(), title: String, note: String = "", start: Date, end: Date, isCompleted: Bool = false) {
+    public init(id: UUID = UUID(), title: String, note: String = "", start: Date, end: Date, isCompleted: Bool = false, isNotificationEnabled: Bool = false) {
         self.id = id; self.title = title; self.note = note
         self.start = start; self.end = end; self.isCompleted = isCompleted
+        self.isNotificationEnabled = isNotificationEnabled
+    }
+    private enum CodingKeys: String, CodingKey {
+        case id, title, note, start, end, isCompleted, isNotificationEnabled
+    }
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        id = try values.decode(UUID.self, forKey: .id)
+        title = try values.decode(String.self, forKey: .title)
+        note = try values.decode(String.self, forKey: .note)
+        start = try values.decode(Date.self, forKey: .start)
+        end = try values.decode(Date.self, forKey: .end)
+        isCompleted = try values.decode(Bool.self, forKey: .isCompleted)
+        isNotificationEnabled = try values.decodeIfPresent(Bool.self, forKey: .isNotificationEnabled) ?? false
     }
     public var validationMessage: String? {
         if title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { return "제목을 입력해주세요." }

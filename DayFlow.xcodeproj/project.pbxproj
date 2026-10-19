@@ -1,16 +1,22 @@
 // !$*UTF8*$!
-{archiveVersion = 1; classes = {}; objectVersion = 56; objects = {000000000000000000000064 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/DayFlowApp.swift"; sourceTree = "<group>"; };
+{archiveVersion = 1; classes = {}; objectVersion = 56; objects = {00000000000000000000012C = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Core/ScheduleNotifications.swift"; sourceTree = "<group>"; };
+000000000000000000000190 = {isa = PBXBuildFile; fileRef = 00000000000000000000012C; };
+00000000000000000000012D = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Core/ScheduleStore.swift"; sourceTree = "<group>"; };
+000000000000000000000191 = {isa = PBXBuildFile; fileRef = 00000000000000000000012D; };
+00000000000000000000012E = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/NotificationClient.swift"; sourceTree = "<group>"; };
+000000000000000000000192 = {isa = PBXBuildFile; fileRef = 00000000000000000000012E; };
+000000000000000000000064 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/DayFlowApp.swift"; sourceTree = "<group>"; };
 0000000000000000000000C8 = {isa = PBXBuildFile; fileRef = 000000000000000000000064; };
 000000000000000000000065 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/ScheduleListView.swift"; sourceTree = "<group>"; };
 0000000000000000000000C9 = {isa = PBXBuildFile; fileRef = 000000000000000000000065; };
 000000000000000000000066 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Core/Schedule.swift"; sourceTree = "<group>"; };
 0000000000000000000000CA = {isa = PBXBuildFile; fileRef = 000000000000000000000066; };
 000000000000000000000001 = { isa = PBXProject; buildConfigurationList = 00000000000000000000000B; compatibilityVersion = "Xcode 14.0"; developmentRegion = ko; knownRegions = (ko,en,Base); mainGroup = 000000000000000000000002; productRefGroup = 000000000000000000000003; projectDirPath = ""; targets = (000000000000000000000006); };
-000000000000000000000002 = { isa = PBXGroup; children = (000000000000000000000064,000000000000000000000065,000000000000000000000066,000000000000000000000003); sourceTree = "<group>"; };
+000000000000000000000002 = { isa = PBXGroup; children = (00000000000000000000012C,00000000000000000000012D,00000000000000000000012E,000000000000000000000064,000000000000000000000065,000000000000000000000066,000000000000000000000003); sourceTree = "<group>"; };
 000000000000000000000003 = { isa = PBXGroup; children = (000000000000000000000007); name = Products; sourceTree = "<group>"; };
 000000000000000000000007 = { isa = PBXFileReference; explicitFileType = wrapper.application; path = DayFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 000000000000000000000006 = { isa = PBXNativeTarget; buildConfigurationList = 00000000000000000000000C; buildPhases = (000000000000000000000008,000000000000000000000009,00000000000000000000000A); buildRules = (); dependencies = (); name = DayFlow; productName = DayFlow; productReference = 000000000000000000000007; productType = "com.apple.product-type.application"; };
-000000000000000000000008 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (0000000000000000000000C8,0000000000000000000000C9,0000000000000000000000CA); runOnlyForDeploymentPostprocessing = 0; };
+000000000000000000000008 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (000000000000000000000190,000000000000000000000191,000000000000000000000192,0000000000000000000000C8,0000000000000000000000C9,0000000000000000000000CA); runOnlyForDeploymentPostprocessing = 0; };
 000000000000000000000009 = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 00000000000000000000000A = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 00000000000000000000000B = { isa = XCConfigurationList; buildConfigurations = (00000000000000000000000D,00000000000000000000000E); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
