@@ -5,7 +5,7 @@ mkdir -p .build
 if [[ -n "${DAYFLOW_SIMULATOR_ID:-}" ]]; then
   simulator_id="$DAYFLOW_SIMULATOR_ID"
 else
-  simulator_id="$(xcrun simctl list devices available --json | python3 scripts/select_simulator.py)"
+  simulator_id="$(xcrun simctl list devices available --json | DAYFLOW_SIMULATOR_MAX_OS="$(xcrun --sdk iphonesimulator --show-sdk-version)" python3 scripts/select_simulator.py)"
 fi
 # 시뮬레이터 부팅을 별도로 기다려 테스트 시작 지연과 테스트 실패를 구분합니다.
 python3 - "$simulator_id" <<'BOOT'
@@ -24,7 +24,7 @@ run_tests() {
     -parallel-testing-enabled NO -test-timeouts-enabled YES \
     -default-test-execution-time-allowance 90 -maximum-test-execution-time-allowance 120 \
     -only-testing:DayFlowUITests \
-    CODE_SIGNING_ALLOWED=NO "$@" test
+    CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- "$@" test
 }
 printf 'UI test simulator: %s\nResult bundle: %s\n' "$simulator_id" "$result_path"
 if [[ "${DAYFLOW_SWIFT_DISABLE_SANDBOX:-0}" == "1" ]]; then

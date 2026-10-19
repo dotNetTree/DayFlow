@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 """사용 가능한 iPhone 시뮬레이터를 선택합니다. 특정 모델 이름에 의존하지 않습니다."""
 import json
+import os
 import re
 import sys
 
 def select_device(payload):
     candidates = []
+    maximum = os.environ.get("DAYFLOW_SIMULATOR_MAX_OS")
+    maximum = tuple(map(int, maximum.split("."))) if maximum else None
     for runtime, devices in payload.get("devices", {}).items():
         if ".iOS-" not in runtime:
             continue
         version = tuple(map(int, re.findall(r"\d+", runtime.split(".iOS-")[-1])))
+        if maximum and (version + (0, 0, 0))[:3] > (maximum + (0, 0, 0))[:3]:
+            continue
         for device in devices:
             if device.get("isAvailable") and device.get("name", "").startswith("iPhone"):
                 candidates.append((version, device["name"], device["udid"]))
